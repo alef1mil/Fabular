@@ -4,6 +4,23 @@
      <title>Fabular</title>
      <link rel="icon" href="fabular_icon.jpg" type="image/jpeg">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+         h1 {
+            text-align: center;
+            color: blue
+         }
+         .chat-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll
+         }
+         form {
+            display: flex;
+            margin-top: 10px
+         }
+      </style>
+      
    </head>
    <body>
      <h1>Chat</h1>
@@ -14,7 +31,7 @@
             </div>
         {% endfor %}
      </div>
-     
+
 
      <form action="/enviar_mensagem" method="POST">
         <textarea name="message" placeholder="Digite algo..." required></textarea>
