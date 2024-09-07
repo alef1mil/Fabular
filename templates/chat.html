@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+   <head>
+     <title>Fabular</title>
+   </head>
+   <body>
+     <h1>Chat</h1>
+     <div class="chat-box">
+        {% for mensagems in mensagen %}
+            <div class="message">
+                <strong>{{ mensagems.usuario }}</strong>: {{ mensagems.mensagem }}
+            </div>
+        {% endfor %}
+     </div>
+     
+
+     <form action="/enviar_mensagem" method="POST">
+        <textarea name="message" placeholder="Digite algo..." required></textarea>
+        <button type="submit">Enviar</button>
+     </form>
+
+   </body>
+</html>
