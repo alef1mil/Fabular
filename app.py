@@ -26,7 +26,7 @@ def index():
       usuarios.insert_one({"email": email, "usuario": usuario, "senha": senha})
       print(f"Novo usuario cadastrado:\n{email}\n{usuario}")
     
-      return redirect('login.html')
+      return redirect('login')
       
     else:
       print("Usuário ja cadastrado")
