@@ -1,4 +1,3 @@
-
 import flask
 from flask import Flask, render_template, request, redirect, flash, session
 import pymongo
@@ -23,8 +22,11 @@ def index():
     filtro = {"email": email}
     senha = request.form['senha']
     if usuarios.count_documents(filtro) == 0:
-      usuarios.insert_one({"email": email, "usuario": usuario, "senha": senha})
+      id = usuarios.count_documents({}) + 1
+      usuarios.insert_one({"email": email, "usuario": usuario, "id": id, "senha": senha})
       print(f"Novo usuario cadastrado:\n{email}\n{usuario}")
+      mensagens.insert_one({"mensagem": f"Um novo usuário apareceu 🥳, seja bem-vindo(a) {usuario}", "usuario": "Sistema [ ✓ BOT ]"})
+      
     
       return redirect('login')
       
@@ -69,6 +71,18 @@ def enviar_mensagem():
 
   else:
     return redirect("login")
+
+@app.route('/user/<int:id>')
+def user(id):
+  # buscar usuarios
+  if usuarios.count_documents({"id": id}) == 1:
+    usuario = usuarios.find_one({"id": id})
+    id1 = usuario.get("id")
+    usuario1 = usuario.get("usuario")
+    return f'Nome:{usuario1}<br>Id:{id1}'
+
+  else:
+    return 'Usuario nao encontrado'
 
 if __name__ == '__main__':
   app.run(debug=True, host='0.0.0.0')
