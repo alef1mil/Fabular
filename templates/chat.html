@@ -7,24 +7,23 @@
       <style>
          h1 {
             text-align: center;
-            color: blue
+            color: blue;
          }
          .chat-box {
             border: 1px solid #ccc;
             padding: 10px;
             height: 500px;
-            overflow-y: scroll
+            overflow-y: scroll;
          }
          form {
             display: flex;
-            margin-top: 10px
+            margin-top: 10px;
          }
          button {
             margin-left: 10px;
-            color: green
+            color: green;
          }
       </style>
-      
    </head>
    <body>
      <h1>Chat</h1>
@@ -36,22 +35,43 @@
         {% endfor %}
      </div>
 
-
-     <form action="/enviar_mensagem" method="POST">
-        <textarea name="message" placeholder="Digite algo..." required></textarea>
+     <form id="message-form">
+        <textarea id="message" name="message" placeholder="Digite algo..." required></textarea>
         <button type="submit">Enviar</button>
      </form>
-     <script>
-         function autoscriol() {
-            const chatbox = document.getElementById('chat-box');
-            chatbox.scrollTop = chatbox.scrollHeight; 
-         }
-         window.onload = function() {
-            autoscriol();
-        };
-        
-     </script>
-     
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    const socket = io();
 
+    function autoscroll() {
+        const chatbox = document.getElementById('chat-box');
+        chatbox.scrollTop = chatbox.scrollHeight; 
+    }
+
+    window.onload = function() {
+        autoscroll();
+    };
+
+    socket.on('message', function(data) {
+        console.log(data);  // Debugging: veja o que está sendo recebido
+        const chatbox = document.getElementById('chat-box');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        // Exibir corretamente o conteúdo da mensagem e do usuário
+        messageElement.innerHTML = `<strong>${data.usuario}</strong>: ${data.mensagem}`;
+        chatbox.appendChild(messageElement);
+        autoscroll();
+    });
+
+    document.getElementById('message-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const messageInput = document.getElementById('message');
+        const message = messageInput.value;
+
+        socket.emit('send_message', { mensagem: message });
+
+        messageInput.value = '';
+    });
+</script>
    </body>
 </html>
