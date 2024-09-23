@@ -1,6 +1,7 @@
 import flask
-from flask import Flask, render_template, request, redirect, flash, session
+from flask import Flask, render_template, request, redirect, flash, session, url_for
 import pymongo
+from flask_socketio import SocketIO, emit
 from datetime import timedelta
 from pymongo import MongoClient
 
@@ -13,6 +14,8 @@ mensagens = banco_dados["mensagens"]
 app = Flask(__name__)
 app.secret_key = "10245516491832603D"
 app.permanent_session_lifetime = timedelta(minutes=30)  # Sessão expira em 30 minutos
+
+socketio = SocketIO(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -55,6 +58,8 @@ def login():
 
   return render_template('login.html')
 
+
+  
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
   mensagen = list(mensagens.find())
@@ -67,7 +72,7 @@ def enviar_mensagem():
   username = session.get('username')
   if username:
     mensagens.insert_one({"mensagem": mensagem, "usuario": username})
-    return redirect("chat")
+    return redirect('chat')
 
   else:
     return redirect("login")
@@ -84,5 +89,19 @@ def user(id):
   else:
     return 'Usuario nao encontrado'
 
+
+
+@socketio.on('send_message')
+def handle_send_message(data):
+    username = session.get('username')
+    if username:
+        message = data.get('mensagem')
+        if message:
+                mensagens.insert_one({"mensagem": str(message), "usuario": str(username)})
+            
+        emit('message', {"usuario": username, "mensagem": message}, broadcast=True)
+            
+  
+
 if __name__ == '__main__':
-  app.run(debug=True, host='0.0.0.0')
+  socketio.run(app, debug=True, host='0.0.0.0')
