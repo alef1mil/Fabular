@@ -12,7 +12,7 @@ usuarios = banco_dados["usuarios"]
 mensagens = banco_dados["mensagens"]
 
 app = Flask(__name__)
-app.secret_key = "10245516491832603D"
+app.secret_key = "10245516491832603DD"
 app.permanent_session_lifetime = timedelta(minutes=30)  # Sessão expira em 30 minutos
 
 socketio = SocketIO(app)
