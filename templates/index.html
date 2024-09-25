@@ -2,20 +2,43 @@
 <html>
    <head>
      <title>Fabular - Cadastro</title>
-     <meta name="description" content="Falubar is a free conversation chat made for those who want freedom.">
-     <meta property="og:image" content="https://fabular.onrender.com/static/fabular_icon.jpeg">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <style>
+        h1 {
+           text-align: center;
+           color: white;
+        }
+        body {
+           background-color: black
+        }
+        #castras-box input[type="submit"] {
+           color: green;
+           border: 1px solid black;
+           border-radius: 8px
+        }
+        #castras-box {
+           border: 3px solid black;
+           border-radius: 8px;
+           padding: 10px;
+           width: 230px;
+           background-color: gray;
+        }
+     </style>
+     
    </head>
    <body>
      <h1>Cadastro</h1>
-     
-     <form action="/" method="POST">
+    <div id="castras-box">
+      <form action="/" method="POST">
         Email: <input type="email" name="email" id="email" required /><br>
         Senha: <input type="password" name="senha" id="senha" required /><br>
-        Nome de Usuário: <input type="text" name="usuario" id="usuario" required />
+          Nome de Usuário: <input type="text" name="usuario" id="usuario" required />
         <input type="submit" value="Cadastrar" /><br>
        ja tem uma conta? <a href="/login">fazer login</a>
-     </form>
+      </form>
+       
+    </div>
+
        
    </body>
 </html>
