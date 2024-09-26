@@ -5,24 +5,39 @@
      <link rel="icon" href="static/fabular_icon.jpeg" type="image/jpeg">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <style>
+         body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           
+           background-color: black
+         }
          h1 {
             text-align: center;
             color: blue;
          }
          .chat-box {
             border: 1px solid #ccc;
+            border-radius: 8px;
             padding: 10px;
             height: 500px;
             overflow-y: scroll;
+            background-color: white;
          }
          form {
             display: flex;
             margin-top: 10px;
          }
+         textarea {
+            border: 2px solid white;
+            border-radius: 8px;
+            background-color: white;
+         }
          button {
+            border: 1px solid  white;
+            border-radius: 8px;
             margin-left: 10px;
             color: green;
          }
+         
       </style>
    </head>
    <body>
@@ -52,6 +67,7 @@
         autoscroll();
     };
 
+    // Receber mensagens do servidor via WebSocket
     socket.on('message', function(data) {
         console.log(data);  // Debugging: veja o que está sendo recebido
         const chatbox = document.getElementById('chat-box');
@@ -63,15 +79,19 @@
         autoscroll();
     });
 
+    // Enviar mensagem via WebSocket
     document.getElementById('message-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const messageInput = document.getElementById('message');
         const message = messageInput.value;
 
+        // Enviar a mensagem para o servidor
         socket.emit('send_message', { mensagem: message });
 
+        // Limpar a caixa de texto após enviar
         messageInput.value = '';
     });
+   
 </script>
    </body>
 </html>
