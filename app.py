@@ -5,7 +5,7 @@ from flask_socketio import SocketIO, emit
 from datetime import timedelta
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://alefdesalvador:filhodorei@sukita.kbmrt.mongodb.net/?retryWrites=true&w=majority&appName=Sukita")
+client = MongoClient("")
 
 banco_dados = client["fabular"]
 usuarios = banco_dados["usuarios"]
